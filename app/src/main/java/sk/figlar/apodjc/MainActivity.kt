@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            val response = ApodRepository().fetchContents()
+            val response = ApodRepository().getApodApiModels()
             Log.d("MainActivity", "Response: $response")
         }
 
