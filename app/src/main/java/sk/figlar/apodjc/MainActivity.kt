@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -20,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
 import sk.figlar.apodjc.api.ApodApiModel
 import sk.figlar.apodjc.ui.theme.APODJCTheme
@@ -54,7 +56,10 @@ fun ApodGallery(modifier: Modifier = Modifier) {
 
     LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = modifier) {
         items(apods) { apod ->
-            Text(text = apod.title)
+            Column {
+                AsyncImage(model = apod.url, contentDescription = "")
+                Text(text = apod.title)
+            }
         }
     }
 }
