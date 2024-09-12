@@ -14,19 +14,16 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import sk.figlar.apodjc.api.ApodApiModel
 import sk.figlar.apodjc.ui.theme.APODJCTheme
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -51,15 +48,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ApodGallery(modifier: Modifier = Modifier) {
-    var apods by remember { mutableStateOf<List<ApodApiModel>>(emptyList()) }
+    val viewModel = viewModel<ApodGalleryViewModel>()
+    val apods by viewModel.apods.collectAsStateWithLifecycle()
 
     // calculating image size (width and height)
     val configuration = LocalConfiguration.current
     val imageSize = (configuration.screenWidthDp / 3).dp
-
-    LaunchedEffect(true) {
-        apods = ApodRepository().getApodApiModels()
-    }
 
     val apodsWithImages = apods.filter { it.mediaType == "image" }
     LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = modifier) {

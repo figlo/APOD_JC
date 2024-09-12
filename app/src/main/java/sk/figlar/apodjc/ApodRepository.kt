@@ -4,6 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 import sk.figlar.apodjc.api.ApodApi
+import sk.figlar.apodjc.api.ApodApiModel
 
 class ApodRepository {
     private val apodApi: ApodApi
@@ -18,5 +19,5 @@ class ApodRepository {
         apodApi = retrofit.create()
     }
 
-    suspend fun getApodApiModels() = apodApi.getApodApiModels("2024-08-01")
+    suspend fun getApodApiModels(): List<ApodApiModel> = apodApi.getApodApiModels("2024-08-01")
 }
