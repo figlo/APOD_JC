@@ -19,5 +19,5 @@ class ApodRepository {
         apodApi = retrofit.create()
     }
 
-    suspend fun getApodApiModels(): List<ApodApiModel> = apodApi.getApodApiModels("2024-08-01")
+    suspend fun getApodApiModels(): List<ApodApiModel> = apodApi.getApodApiModels("2024-09-01")
 }

@@ -19,11 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import kotlinx.serialization.Serializable
 import sk.figlar.apodjc.ui.theme.APODJCTheme
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -36,6 +39,20 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             APODJCTheme {
+                val navController = rememberNavController()
+                NavHost(
+                    navController = navController,
+                    startDestination = GalleryDestination,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    composable<GalleryDestination> {
+                        ApodGallery()
+                    }
+                    composable<DetailDestination> {
+                        ApodDetail()
+                    }
+                }
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     ApodGallery(
                         modifier = Modifier.padding(innerPadding)
@@ -45,6 +62,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+@Serializable
+object GalleryDestination
+
+@Serializable
+data class DetailDestination(
+    val apodId: String,
+)
 
 @Composable
 fun ApodGallery(modifier: Modifier = Modifier) {
@@ -56,7 +81,7 @@ fun ApodGallery(modifier: Modifier = Modifier) {
     val imageSize = (configuration.screenWidthDp / 3).dp
 
     val apodsWithImages = apods.filter { it.mediaType == "image" }
-    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = modifier) {
+    LazyVerticalGrid(columns = GridCells.Fixed(3)) {
         items(apodsWithImages.reversed()) { apod ->
             Column {
                 AsyncImage(
@@ -80,17 +105,6 @@ fun ApodGallery(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    APODJCTheme {
-        Greeting("Android")
-    }
+fun ApodDetail(modifier: Modifier = Modifier) {
+    Text("ApodDetail")
 }
