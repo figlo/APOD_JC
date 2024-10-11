@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -20,11 +21,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import coil.compose.AsyncImage
 import kotlinx.serialization.Serializable
 import sk.figlar.apodjc.ui.theme.APODJCTheme
@@ -36,43 +41,53 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // hide status bar
+        val insetsController = WindowCompat.getInsetsController(window, window.decorView)
+        insetsController.apply {
+            hide(WindowInsetsCompat.Type.statusBars())
+            systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+
         enableEdgeToEdge()
         setContent {
             APODJCTheme {
                 val navController = rememberNavController()
-                NavHost(
+                NavHost (
                     navController = navController,
-                    startDestination = GalleryDestination,
+                    startDestination = GalleryRoute,
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    composable<GalleryDestination> {
-                        ApodGallery()
+                    composable<GalleryRoute> {
+                        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                            ApodGallery(
+                                onDetailClick = { apodId ->
+                                    navController.navigate(DetailRoute(apodId))
+                                },
+                                modifier = Modifier.padding(innerPadding)
+                            )
+                        }
                     }
-                    composable<DetailDestination> {
-                        ApodDetail()
+                    composable<DetailRoute> { backStackEntry ->
+                        val detailRoute: DetailRoute = backStackEntry.toRoute()
+                        ApodDetail(detailRoute.apodId)
                     }
                 }
 
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    ApodGallery(
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
             }
         }
     }
 }
 
 @Serializable
-object GalleryDestination
+object GalleryRoute
 
 @Serializable
-data class DetailDestination(
+data class DetailRoute(
     val apodId: String,
 )
 
 @Composable
-fun ApodGallery(modifier: Modifier = Modifier) {
+fun ApodGallery(onDetailClick: (String) -> Unit = {}, modifier: Modifier = Modifier) {
     val viewModel = viewModel<ApodGalleryViewModel>()
     val apods by viewModel.apods.collectAsStateWithLifecycle()
 
@@ -83,7 +98,11 @@ fun ApodGallery(modifier: Modifier = Modifier) {
     val apodsWithImages = apods.filter { it.mediaType == "image" }
     LazyVerticalGrid(columns = GridCells.Fixed(3)) {
         items(apodsWithImages.reversed()) { apod ->
-            Column {
+            Column(
+                Modifier.clickable {
+                    onDetailClick(apod.title)
+                }
+            ) {
                 AsyncImage(
                     model = apod.url,
                     placeholder = painterResource(R.drawable.placeholder),
@@ -105,6 +124,6 @@ fun ApodGallery(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ApodDetail(modifier: Modifier = Modifier) {
-    Text("ApodDetail")
+fun ApodDetail(apodId: String, modifier: Modifier = Modifier) {
+    Text(apodId)
 }
