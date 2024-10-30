@@ -8,5 +8,4 @@ private const val API_KEY = "ejIN7M9Yj2pqdvwYLGQlEC2rYaCbhDltzkjQcVj1"
 interface ApodApi {
     @GET("planetary/apod?api_key=$API_KEY")
     suspend fun getApodApiModels(@Query("start_date") startDate: String): List<ApodApiModel>
-//    suspend fun getApodApiModels(@Query("start_date") startDate: String): String
 }

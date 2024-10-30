@@ -13,11 +13,10 @@ class ApodRepository {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.nasa.gov/")
             .addConverterFactory(MoshiConverterFactory.create())
-//            .addConverterFactory(ScalarsConverterFactory.create())
             .build()
 
         apodApi = retrofit.create()
     }
 
-    suspend fun getApodApiModels(): List<ApodApiModel> = apodApi.getApodApiModels("2024-09-01")
+    suspend fun getApodApiModels(): List<ApodApiModel> = apodApi.getApodApiModels("2024-10-15")
 }
