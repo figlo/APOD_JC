@@ -2,7 +2,9 @@ package sk.figlar.apodjc.api
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.serialization.Serializable
 
+@Serializable
 @JsonClass(generateAdapter = true)
 data class ApodApiModel(
     val copyright: String?,
