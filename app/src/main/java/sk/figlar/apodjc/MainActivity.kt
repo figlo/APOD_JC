@@ -135,9 +135,7 @@ fun ApodGallery(onDetailClick: (ApodApiModel) -> Unit = {}) {
                     modifier = Modifier
                         .padding(4.dp)
                 ) {
-                    Text(
-                        text = apod.title,
-                    )
+                    Text(text = apod.title)
                     Text(text = formattedLocalDate)
                 }
             }
@@ -166,15 +164,17 @@ fun ApodDetail(apod: ApodApiModel) {
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Text(text = formattedLocalDate)
             Text(
-                text = apod.title,
+                text = apod.title.trim(),
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = apod.copyright ?: "",
+                text = apod.copyright?.trim() ?: "",
             )
+            Text(text = formattedLocalDate)
+
             Spacer(modifier = Modifier.height(16.dp))
+
             Text(text = apod.explanation)
         }
     }

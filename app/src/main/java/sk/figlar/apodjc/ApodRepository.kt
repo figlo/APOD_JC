@@ -18,5 +18,11 @@ class ApodRepository {
         apodApi = retrofit.create()
     }
 
-    suspend fun getApodApiModels(): List<ApodApiModel> = apodApi.getApodApiModels("2024-10-15")
+    suspend fun getApodApiModels(): List<ApodApiModel> {
+//        try {
+            return apodApi.getApodApiModels("2024-10-15")
+//        } catch (ex: Exception) {
+//            Timber.e("Failed to fetch gallery items: $ex")
+//        }
+    }
 }
