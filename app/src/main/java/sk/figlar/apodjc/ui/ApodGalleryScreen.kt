@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import sk.figlar.apodjc.R
-import sk.figlar.apodjc.api.ApodApiModel
+import sk.figlar.apodjc.model.ApodApiModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle

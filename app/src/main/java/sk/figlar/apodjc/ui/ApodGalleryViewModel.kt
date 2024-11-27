@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import sk.figlar.apodjc.ApodRepository
 import sk.figlar.apodjc.Result
-import sk.figlar.apodjc.api.ApodApiModel
+import sk.figlar.apodjc.model.ApodApiModel
 
 class ApodGalleryViewModel : ViewModel() {
     private val apodRepository = ApodRepository()

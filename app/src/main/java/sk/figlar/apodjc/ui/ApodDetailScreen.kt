@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import sk.figlar.apodjc.R
-import sk.figlar.apodjc.api.ApodApiModel
+import sk.figlar.apodjc.model.ApodApiModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -30,7 +30,7 @@ fun ApodDetailScreen(apod: ApodApiModel) {
         AsyncImage(
             model = apod.url,
             placeholder = painterResource(R.drawable.placeholder),
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillWidth,
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()

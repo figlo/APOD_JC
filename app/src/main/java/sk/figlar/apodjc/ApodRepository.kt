@@ -3,8 +3,8 @@ package sk.figlar.apodjc
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
-import sk.figlar.apodjc.api.ApodApi
-import sk.figlar.apodjc.api.ApodApiModel
+import sk.figlar.apodjc.data.ApodApi
+import sk.figlar.apodjc.model.ApodApiModel
 import timber.log.Timber
 
 class ApodRepository {

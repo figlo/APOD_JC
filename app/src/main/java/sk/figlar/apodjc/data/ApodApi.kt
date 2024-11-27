@@ -1,7 +1,8 @@
-package sk.figlar.apodjc.api
+package sk.figlar.apodjc.data
 
 import retrofit2.http.GET
 import retrofit2.http.Query
+import sk.figlar.apodjc.model.ApodApiModel
 
 private const val API_KEY = "ejIN7M9Yj2pqdvwYLGQlEC2rYaCbhDltzkjQcVj1"
 

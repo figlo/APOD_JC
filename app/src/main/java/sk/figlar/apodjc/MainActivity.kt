@@ -16,7 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
-import sk.figlar.apodjc.api.ApodApiModel
+import sk.figlar.apodjc.model.ApodApiModel
 import sk.figlar.apodjc.ui.ApodDetailScreen
 import sk.figlar.apodjc.ui.ApodGalleryScreen
 import sk.figlar.apodjc.ui.theme.APODJCTheme

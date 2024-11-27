@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.navigation.NavType
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import sk.figlar.apodjc.api.ApodApiModel
+import sk.figlar.apodjc.model.ApodApiModel
 
 object CustomNavType {
 

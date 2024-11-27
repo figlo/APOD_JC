@@ -1,4 +1,4 @@
-package sk.figlar.apodjc.api
+package sk.figlar.apodjc.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
