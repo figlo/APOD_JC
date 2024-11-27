@@ -5,6 +5,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 import sk.figlar.apodjc.api.ApodApi
 import sk.figlar.apodjc.api.ApodApiModel
+import timber.log.Timber
 
 class ApodRepository {
     private val apodApi: ApodApi
@@ -18,11 +19,17 @@ class ApodRepository {
         apodApi = retrofit.create()
     }
 
-    suspend fun getApodApiModels(): List<ApodApiModel> {
-//        try {
-            return apodApi.getApodApiModels("2024-10-15")
-//        } catch (ex: Exception) {
-//            Timber.e("Failed to fetch gallery items: $ex")
-//        }
+    suspend fun getApodApiModels(): Result<List<ApodApiModel>, ApiError> {
+        try {
+            val list = apodApi.getApodApiModels("2024-10-15")
+            return Result.Success(list)
+        } catch (ex: Exception) {
+            Timber.e("Failed to fetch gallery items: $ex")
+            return Result.Error(ApiError.UNKNOWN)
+        }
+    }
+
+    enum class ApiError: Error {
+        UNKNOWN,
     }
 }

@@ -6,14 +6,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import sk.figlar.apodjc.api.ApodApiModel
 
-class ApodGalleryViewModel() : ViewModel() {
+class ApodGalleryViewModel : ViewModel() {
     private val apodRepository = ApodRepository()
 
     val apods: MutableStateFlow<List<ApodApiModel>> = MutableStateFlow(emptyList())
 
     init {
         viewModelScope.launch {
-            apods.value = apodRepository.getApodApiModels()
+            when (val result = apodRepository.getApodApiModels()) {
+                is Result.Error   -> { }
+                is Result.Success -> {
+                    apods.value = result.data
+                }
+            }
+
         }
     }
 }
