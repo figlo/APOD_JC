@@ -23,11 +23,14 @@ import java.time.format.FormatStyle
 
 @Composable
 fun ApodDetailScreen(apod: ApodApiModel) {
-    Column {
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+    ) {
         AsyncImage(
             model = apod.url,
             placeholder = painterResource(R.drawable.placeholder),
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.Crop,
             contentDescription = "",
             modifier = Modifier
                 .fillMaxWidth()
@@ -40,7 +43,6 @@ fun ApodDetailScreen(apod: ApodApiModel) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState())
         ) {
             Text(
                 text = apod.title.trim(),
