@@ -1,4 +1,4 @@
-package sk.figlar.apodjc.ui
+package sk.figlar.apodjc.ui.apod_detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

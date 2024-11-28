@@ -1,4 +1,4 @@
-package sk.figlar.apodjc
+package sk.figlar.apodjc.ui.navigation
 
 import android.net.Uri
 import android.os.Bundle

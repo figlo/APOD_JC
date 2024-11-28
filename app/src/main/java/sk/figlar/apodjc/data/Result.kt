@@ -1,4 +1,4 @@
-package sk.figlar.apodjc
+package sk.figlar.apodjc.data
 
 typealias RootError = Error
 

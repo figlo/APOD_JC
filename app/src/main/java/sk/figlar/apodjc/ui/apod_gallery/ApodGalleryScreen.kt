@@ -1,4 +1,4 @@
-package sk.figlar.apodjc.ui
+package sk.figlar.apodjc.ui.apod_gallery
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
