@@ -14,13 +14,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import sk.figlar.apodjc.R
 import sk.figlar.apodjc.model.ApodApiModel
+import sk.figlar.apodjc.ui.fakeApod
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -29,10 +32,6 @@ import java.time.format.FormatStyle
 fun ApodGalleryScreen(onDetailClick: (ApodApiModel) -> Unit = {}) {
     val viewModel = viewModel<ApodGalleryViewModel>()
     val apods by viewModel.apods.collectAsStateWithLifecycle()
-
-    // calculating image size (width and height)
-    val configuration = LocalConfiguration.current
-    val imageSize = (configuration.screenWidthDp / 3).dp
 
     val apodsWithImages = apods.filter { it.mediaType == "image" }
     LazyVerticalGrid(
@@ -46,27 +45,50 @@ fun ApodGalleryScreen(onDetailClick: (ApodApiModel) -> Unit = {}) {
                     onDetailClick(apod)
                 }
             ) {
-                AsyncImage(
-                    model = apod.url,
-                    placeholder = painterResource(R.drawable.placeholder),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .height(imageSize)
-                )
-
-                val localDate = LocalDate.parse(apod.date)
-                val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
-                val formattedLocalDate = localDate.format(formatter)
-
-                Column(
-                    modifier = Modifier
-                        .padding(4.dp)
-                ) {
-                    Text(text = apod.title)
-                    Text(text = formattedLocalDate)
-                }
+                ApodInGallery(apod = apod)
             }
         }
     }
+}
+
+@Composable
+fun ApodInGallery(apod: ApodApiModel) {
+    // calculating image size (width and height)
+    val configuration = LocalConfiguration.current
+    val imageSize = if (LocalInspectionMode.current) {
+        // set image width for preview
+        configuration.screenWidthDp.dp
+    } else {
+        // set image width for gallery
+        (configuration.screenWidthDp / 3).dp
+    }
+
+    Column {
+        AsyncImage(
+            model = apod.url,
+            placeholder = painterResource(R.drawable.placeholder),
+            contentScale = ContentScale.Crop,
+            contentDescription = "",
+            modifier = Modifier
+                .height(imageSize)
+        )
+
+        val localDate = LocalDate.parse(apod.date)
+        val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+        val formattedLocalDate = localDate.format(formatter)
+
+        Column(
+            modifier = Modifier
+                .padding(4.dp)
+        ) {
+            Text(text = apod.title)
+            Text(text = formattedLocalDate)
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ApodInGalleryPreview() {
+    ApodInGallery(apod = fakeApod)
 }
